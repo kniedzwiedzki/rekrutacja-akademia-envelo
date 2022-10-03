@@ -22,16 +22,16 @@ public class App {
                         final Quote quote = quoteFetcher.fetchQuote();
                         System.out.println("Pobrany cytat: " + quote.getQuote());
                     } catch (QuoteServerException e) {
-                        System.err.println("Wystąpił błąd po stronie serwera cytatów");
+                        System.err.println("Wystąpił błąd po stronie serwera cytatów.");
                     }
                 } else {
-                    System.out.println("Komenda nie obsługiwana");
+                    System.out.println("Komenda nie obsługiwana.");
                 }
             }
         } catch (IllegalStateException | NoSuchElementException e) {
-            System.out.println("Konsola została zamknięta");
+            System.out.println("Konsola została zamknięta.");
         } catch (NewQuotesNotAvailableException e) {
-            System.err.println("Wystąpił błąd po stronie serwera cytatów");
+            System.err.println("Brak nowych cytatów, lub liczba rekursywnych wywołań przekroczona.");
         } catch (MemorizedQuotesFullException e) {
             System.err.println("Liczba cytatów zapisanych w pamięci przekroczyła limit.");
         }
