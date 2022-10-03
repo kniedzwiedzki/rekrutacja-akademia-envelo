@@ -1,4 +1,4 @@
-package pl.envelo.akademia.pkp.rekrutacja;
+package pl.envelo.akademia.pkp.rekrutacja.zadanie1;
 
 public class Zadanie1 {
 
