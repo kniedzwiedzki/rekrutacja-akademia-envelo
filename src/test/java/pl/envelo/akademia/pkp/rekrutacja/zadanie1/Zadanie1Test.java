@@ -1,9 +1,10 @@
-package pl.envelo.akademia.pkp.rekrutacja;
+package pl.envelo.akademia.pkp.rekrutacja.zadanie1;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import pl.envelo.akademia.pkp.rekrutacja.Zadanie1;
 
 /**
  * Testy jednostkowe do Zadanie1.
