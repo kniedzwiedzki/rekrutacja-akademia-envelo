@@ -2,6 +2,7 @@ package pl.envelo.akademia.pkp.rekrutacja;
 
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import pl.envelo.akademia.pkp.rekrutacja.zadanie2.quote.MemoryQuoteStorage;
 import pl.envelo.akademia.pkp.rekrutacja.zadanie2.quote.Quote;
 import pl.envelo.akademia.pkp.rekrutacja.zadanie2.quote.QuoteFetcher;
 import pl.envelo.akademia.pkp.rekrutacja.zadanie2.quote.exception.MemorizedQuotesFullException;
@@ -12,7 +13,7 @@ import pl.envelo.akademia.pkp.rekrutacja.zadanie2.quote.exception.QuoteServerExc
 public class App {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        final QuoteFetcher quoteFetcher = new QuoteFetcher();
+        final QuoteFetcher quoteFetcher = new QuoteFetcher(new MemoryQuoteStorage());
         try {
             while (true) {
                 System.out.println("Podaj komendę:");

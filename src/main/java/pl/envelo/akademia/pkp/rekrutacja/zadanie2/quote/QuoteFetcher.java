@@ -10,16 +10,17 @@ import pl.envelo.akademia.pkp.rekrutacja.zadanie2.quote.exception.QuoteServerExc
 
 public class QuoteFetcher {
 
-
     private static final int MAX_NEW_QUOTE_REPEATED_CHECKS = 200;
-    private static final String API_URL = System.getProperty("kanyeApiUrl", "https://api.kanye.rest/");
-    private static final Integer MEMORIZED_QUOTE_THRESHOLD = Integer.parseInt(System.getProperty(
-        "memorizedQuoteThreshold",
-        "1000"
-    ));
+    //TODO: posprzątać
 
+    private static final String API_URL = System.getProperty("kanyeApiUrl", "https://api.kanye.rest/");
+
+    private final QuoteStorage quoteStorage;
     private final RestTemplate restTemplate = new RestTemplate();
-    private final Set<String> memorizedQuotes = new HashSet<>();
+
+    public QuoteFetcher(QuoteStorage quoteStorage) {
+        this.quoteStorage = quoteStorage;
+    }
 
     public Quote fetchQuote() throws NewQuotesNotAvailableException, MemorizedQuotesFullException,
         QuoteServerException {
@@ -35,24 +36,22 @@ public class QuoteFetcher {
         final ResponseEntity<Quote> response = restTemplate.getForEntity(API_URL, Quote.class);
 
         if (isResponseSuccessful(response)) {
-            if (quoteWasDisplayed(response)) {
+
+            if (quoteStorage.contains(response.getBody())) {
                 return fetchQuote(numberOfChecks + 1);
             }
-            if (memorizedQuotes.size() <= MEMORIZED_QUOTE_THRESHOLD) {
-                memorizedQuotes.add(response.getBody().getQuote());
-                return response.getBody();
-            } else {
-                throw new MemorizedQuotesFullException();
-            }
+
+            quoteStorage.store(response.getBody());
+            return response.getBody();
+
         }
         throw new QuoteServerException();
     }
+
+
 
     private boolean isResponseSuccessful(ResponseEntity<Quote> response) {
         return response.getStatusCode().is2xxSuccessful() && response.hasBody();
     }
 
-    private boolean quoteWasDisplayed(ResponseEntity<Quote> response) {
-        return memorizedQuotes.contains(response.getBody().getQuote());
-    }
 }
